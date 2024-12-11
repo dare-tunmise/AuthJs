@@ -1,7 +1,16 @@
 const express = require('express');
 const helmet = require('helmet');
 const cors = require('cors');
-const cookieParser = require("cookie-parser")
+const cookieParser = require("cookie-parser");
+const mongoose = require('mongoose');
+
+mongoose.connect(process.env.dbURI)
+.then(()=> {
+    console.log('Database connected')
+})
+.catch((err)=> {
+    console.log(err);
+})
 
 const app = express();
 app.use(cors());
