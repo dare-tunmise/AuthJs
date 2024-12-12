@@ -1,4 +1,4 @@
-const {signupSchema} = require('../middlewares/validator');
+const {signupSchema, signinSchema} = require('../middlewares/validator');
 const User = require("../models/usersModel");
 const { doHash } = require("../utils/hashing");
 
@@ -36,7 +36,10 @@ exports.signup = async (req, res)=> {
 exposrt.signin = async (req, res) => {
     const {email, password } = req.body;
     try {
-        
+        const {error, value} = signinSchema(email, password);
+        if(error) {
+            return res.status(401).json({success:false, message: error.details[0].message});
+        }
     } catch (error) {
         console.log(error);
     }
