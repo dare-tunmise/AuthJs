@@ -31,4 +31,13 @@ exports.signup = async (req, res)=> {
     } catch(error) {
         console.log(error);
     }
+};
+
+exposrt.signin = async (req, res) => {
+    const {email, password } = req.body;
+    try {
+        
+    } catch (error) {
+        console.log(error);
+    }
 }
