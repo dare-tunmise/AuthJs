@@ -11,7 +11,7 @@ mongoose.connect(process.env.dbURI)
     console.log('Database connected')
 })
 .catch((err)=> {
-    console.log(err);
+    console.log('err');
 })
 
 
@@ -30,5 +30,5 @@ app.get('/', (req, res)=> {
 })
 
 app.listen(process.env.PORT, ()=> {
-    console.log('listening')
+    console.log(`server is listening on port ${process.env.PORT}`)
 })

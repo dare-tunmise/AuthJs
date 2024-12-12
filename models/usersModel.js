@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 
 const userSchema = mongoose.Schema({
     email: {
-        type: string,
+        type: String,
         required: [true, 'Email is required!'],
         trim: true,
         unique: [true, "Email must be unique!"],
@@ -43,4 +43,9 @@ const userSchema = mongoose.Schema({
     timestamps: true
 });
 
-model.exports = mongoose.model('User', userSchema);
+// model.exports = mongoose.model('User', userSchema);
+const User = mongoose.model('User', userSchema);
+module.exports = User;
+
+// const Book = mongoose.model('Book', bookSchema);
+// module.exports = Book;
