@@ -9,7 +9,7 @@ exports.signup = async (req, res)=> {
         if(error){
             return res.status(401).json({success:false, message: error.details[0].message})
         }
-        const existingUser = await UserActivation.findOne({email});
+        const existingUser = await User.findOne({ email });
 
         if(existingUser) {
             return res.status(401).json({success:false, message: "User already exists!"});
