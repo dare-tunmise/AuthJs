@@ -1,6 +1,8 @@
+const jwt = require('jsonwebtoken');
 const {signupSchema, signinSchema} = require('../middlewares/validator');
 const User = require("../models/usersModel");
-const { doHash } = require("../utils/hashing");
+const { doHash, doHashValidation } = require("../utils/hashing");
+
 
 exports.signup = async (req, res)=> {
     const { email, password } = req.body;
@@ -45,7 +47,12 @@ exports.signin = async (req, res) => {
         if(!existingUser) {
             return res.status(401).json({success:false, message: "User does not exists!"});
         }
-        
+        const result = await doHashValidation(password, existingUser.password)
+        if (!result){
+            return res.status(401).json({success:false, message: "Invalid credentials!"});
+        }
+
+        const token = jwt.sign({ secret })
     } catch (error) {
         console.log(error);
     }
