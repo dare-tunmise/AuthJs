@@ -33,7 +33,7 @@ exports.signup = async (req, res)=> {
     }
 };
 
-exposrt.signin = async (req, res) => {
+exports.signin = async (req, res) => {
     const {email, password } = req.body;
     try {
         const {error, value} = signinSchema(email, password);
@@ -43,8 +43,9 @@ exposrt.signin = async (req, res) => {
 
         const existingUser = await User.findOne({email}).select('+password');
         if(!existingUser) {
-            return res.status(401).json({success:false, message: "User already exists!"});
+            return res.status(401).json({success:false, message: "User does not exists!"});
         }
+        
     } catch (error) {
         console.log(error);
     }
