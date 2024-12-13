@@ -75,4 +75,23 @@ exports.signin = async (req, res) => {
 
 exports.signout = async (req, res) => {
     return res.clearCookie('Authorization').status(200).json({success:true, message: 'logged out successfully'})
+};
+
+exports.sendVerificationCode = async (req, res) => {
+    const { email } = req.body;
+    try {
+        const existingUser = await User.findOne({email});
+        if(!existingUser) {
+            return res.status(404).json({success:false, message: "User does not exists!"});
+        }
+
+        if(existingUser.verified) {
+            return res.status(404).json({success:false, message: "You're already verified"});
+        }
+
+        const codeValue = Math.floor(Math.random() * 1000000).toString();
+        
+    } catch (error) {
+        console.log(error)
+    }
 }
