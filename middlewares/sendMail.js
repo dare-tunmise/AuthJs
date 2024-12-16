@@ -9,4 +9,4 @@ const transport = nodemailer.createTransport({
     }
 })
 
-module.exports = rea
+module.exports = transport;

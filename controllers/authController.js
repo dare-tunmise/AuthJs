@@ -2,6 +2,7 @@ const jwt = require('jsonwebtoken');
 const {signupSchema, signinSchema} = require('../middlewares/validator');
 const User = require("../models/usersModel");
 const { doHash, doHashValidation } = require("../utils/hashing");
+const transport = require('../middlewares/sendMail');
 
 
 exports.signup = async (req, res)=> {
@@ -90,7 +91,17 @@ exports.sendVerificationCode = async (req, res) => {
         }
 
         const codeValue = Math.floor(Math.random() * 1000000).toString();
-        
+        let info = await transport.sendMail({
+            from: process.env.NODE_CODE_SENDING_EMAIL_ADDRESS,
+            to: existingUser.email,
+            subject: 'verification code',
+            html: `<h1>${codeValue}</h1>`
+        })
+
+        if(info.accepted[0] === existingUser.email) {
+            
+        }
+
     } catch (error) {
         console.log(error)
     }
