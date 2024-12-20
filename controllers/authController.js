@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
 const {signupSchema, signinSchema} = require('../middlewares/validator');
 const User = require("../models/usersModel");
-const { doHash, doHashValidation } = require("../utils/hashing");
+const { doHash, doHashValidation, hmacProcess } = require("../utils/hashing");
 const transport = require('../middlewares/sendMail');
 
 
@@ -99,8 +99,13 @@ exports.sendVerificationCode = async (req, res) => {
         })
 
         if(info.accepted[0] === existingUser.email) {
-            
+            const hashedCodedValue = hmacProcess(codeValue, process.env.HMAC_VERIFICATION_CODE_SECRET)
+            existingUser.verificationCode = hashedCodedValue;
+            existingUser.verificationCodeValidation = Date.now();
+            await existingUser.save();
+            return res.status(200).json({success: true, message: 'Code sent!'})
         }
+        return res.status(400).json({success: false, message: 'Code sent failed!'})
 
     } catch (error) {
         console.log(error)

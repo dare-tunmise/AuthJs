@@ -1,3 +1,4 @@
+const { createHmac} = require('crypto')
 const { hash, compare } = require("bcryptjs")
 
 exports.doHash = (value, saltValue) => {
